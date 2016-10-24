@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.shrimali.schoolonline.constants.Roles;
 import com.shrimali.schoolonline.entities.Role;
 import com.shrimali.schoolonline.entities.User;
-import com.shrimali.schoolonline.repository.UserRepository;
+import com.shrimali.schoolonline.services.GenericService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,22 +23,22 @@ import lombok.extern.slf4j.Slf4j;
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Autowired
-	private UserRepository userRepository;
+	private GenericService<User> userService;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
-		Set<Role> admin_roles = new HashSet<>();
+		Set<Role> roles = new HashSet<>();
 		Role admin_role = new Role(Roles.ROLE_ADMIN, "host");
-		admin_roles.add(admin_role);
-		User admin_user = new User("admin", "12345", "admin", "host", admin_roles);
+		roles.add(admin_role);
+		User admin_user = new User("adminUser", "12345", "admin@gmail.com", "host", roles);
 
-		Set<Role> user_roles = new HashSet<>();
+		roles = new HashSet<>();
 		Role user_role = new Role(Roles.ROLE_USER, "host");
-		user_roles.add(user_role);
-		User user = new User("user", "12345", "user", "host", user_roles);
+		roles.add(user_role);
+		User user = new User("normalUser", "12345", "user@gmail.com", "host", roles);
 
-		userRepository.save(admin_user);
-		userRepository.save(user);
+		userService.save(admin_user);
+		userService.save(user);
 	}
 
 }

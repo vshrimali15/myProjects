@@ -15,7 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,32 +33,36 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 
+	@NotNull
+	@NotBlank
 	private String name;
 
+	@NotNull
+	@NotBlank
 	private String password;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String username;
 
 	private boolean enabled = true;
-	
-	private boolean accountNonExpired = false;
-	
-	private boolean accountNonLocked = false;
-	
-	private boolean credentialsNonExpired = false;
-	
+
+	private boolean accountNonExpired = true;
+
+	private boolean accountNonLocked = true;
+
+	private boolean credentialsNonExpired = true;
+
 	@ManyToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-	@JoinTable(name = "user_roles", 
-		joinColumns = { @JoinColumn(name = "user_id") }, 
-		inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "role_id") })
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<Role> roles;
 
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public User(String name, String password, String username, String createdBy ,Set<Role> roles) {
+
+	public User(String name, String password, String username, String createdBy, Set<Role> roles) {
 		super();
 		this.name = name;
 		this.password = password;
@@ -109,7 +117,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 	public Long getUserId() {
 		return userId;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -121,7 +129,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 	public Set<Role> getRoles() {
 		return roles;
 	}
-	
+
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
