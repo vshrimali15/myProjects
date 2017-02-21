@@ -36,4 +36,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		messageBundle.setDefaultEncoding("UTF-8");
 		return messageBundle;
 	}
+
+	@Bean(name = "exceptionHandlerMessageSource")
+	public ReloadableResourceBundleMessageSource exceptionHandlerMessageSource() {
+		ReloadableResourceBundleMessageSource messageBundle = new ReloadableResourceBundleMessageSource();
+		messageBundle.setBasename("classpath:messages/global-exception-handler");
+		messageBundle.setDefaultEncoding("UTF-8");
+		return messageBundle;
+	}
 }

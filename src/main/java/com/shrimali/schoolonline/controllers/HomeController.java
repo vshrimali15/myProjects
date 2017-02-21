@@ -1,19 +1,17 @@
 package com.shrimali.schoolonline.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.shrimali.schoolonline.security.SecurityService;
 
 @Controller
 public class HomeController {
 
-	@Autowired
-	private SecurityService securityService;
-
 	@RequestMapping("/home")
 	public String home() {
+		if (true) {
+			throw new NullPointerException();
+		}
+		System.out.println("======================");
 		return "home";
 	}
 
@@ -31,4 +29,5 @@ public class HomeController {
 	public String admin() {
 		return "admin";
 	}
+
 }

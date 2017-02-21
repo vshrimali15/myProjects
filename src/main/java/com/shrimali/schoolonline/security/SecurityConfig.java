@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.shrimali.schoolonline.config.AppConfiguration;
-import com.shrimali.schoolonline.constants.AppConstants;
+import com.shrimali.schoolonline.constants.Roles;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		 http
 		 	.authorizeRequests()
-		 	.antMatchers("/admin/**").hasRole(AppConstants.ROLE_ADMIN)
+		 	.antMatchers("/admin/**").hasRole(Roles.ROLE_ADMIN.getRole())
 		 	.anyRequest().authenticated()
 			.and()
 			.formLogin()
